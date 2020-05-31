@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <meta name="keywords" content="Сапёр, игра, мины, взрыв, флажки, карты">
+    <title>MineSweeper</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="logo"><img src="лого.png"></div>
+        <div id="menu">
+            <div class="class">Главная</div>
+            <div class="class">Статистика</div>
+            <div class="class">О нас</div>
+        </div>
+    </header>
+    <main class="authoMain" id="main">
+        <div class="prelude">
+            <div class="form">
+                <div class="qorSquare">
+                    <button class="QuickOrRight" onclick="RAform()">Авторизация</button>
+                    <button class="QuickOrRight" onclick="FAform()">Быстрый вход</button>
+                    <button class="QuickOrRight" onclick="toReg()">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    function toReg(){
+        setTimeout(() => {
+            document.location.href = "index.html";
+        }, 50);
+    }
+    function back(){
+        document.body.children[1].children[0].children[0].innerHTML = `<div class="qorSquare">
+                <button class="QuickOrRight" onclick="RAform()">Авторизация</button>
+                <button class="QuickOrRight" onclick="FAform()">Быстрый вход</button>
+                <button class="QuickOrRight" onclick="toReg()">Регистрация</button>
+            </div>`
+    }
+    function RAform(){
+        document.body.children[1].children[0].children[0].innerHTML = `<p>Ваш логин:</p><input type="text" class="realm" id="authoLogin" name="gameEntryLogin" placeholder="ваш логин:" maxlength="15">
+                <p>Ваш пароль:</p><input type="password" class="realm" id="authoPassword" name="gameEntryPassword" placeholder="ваш пароль:" maxlength="10">
+                <div id="fork">
+                    <button onclick="startAuthorization(0)" class="button">Войти</button>
+                    <button class="button" onclick="back()">Назад</button>
+                </div>`;
+    }
+    function FAform(){
+        document.body.children[1].children[0].children[0].innerHTML = `<div class="faFormSquare">
+            <p>Ваш ключ:</p><input type="text" class="realm" id="inKeyInput" placeholder="ваш ключ:" maxlength="16">
+            <div id="fork">
+                <button class="button" onclick="startAuthorization(1)">Войти</button>
+                <button class="button" onclick="back()">Назад</button>
+            </div>
+        </div>`;
+    }
+    async function startAuthorization(authoMode) {
+        if(authoMode == 0){
+            const login = document.getElementById("authoLogin").value,
+                  password = document.getElementById("authoPassword").value;
+            let inKey = 0;
+            let hyperef = `http://zeref.ru/backend/authorizaction.php?login=${login}&&pass=${password}&&inKey=${inKey}`;
+            let reading = await fetch(hyperef)
+            auto = (await reading.text())
+            localStorage.setItem("authoLogin", login)
+            localStorage.setItem("authoPassword", password)
+            if (auto != "null" && login != "" && password != "" && inKey == 0) {
+                setTimeout(() => {
+                    notify("success");
+                }, 30);
+            } else {
+                setTimeout(() => {
+                    notify("fail");
+                }, 3000);
+            }
+        } else if(authoMode == 1){
+            const login = "anonymous",
+                  password = "null";
+            let inKey = document.getElementById("inKeyInput").value;
+            let hyperef = `http://zeref.ru/backend/authorizaction.php?login=${login}&&pass=${password}&&inKey=${inKey}`;
+            let reading = await fetch(hyperef)
+            auto = (await reading.text())
+            localStorage.setItem("authoLogin", login)
+            localStorage.setItem("authoPassword", password)
+            if (auto != "null" && login == "anonymous" && inKey != 0) {
+                setTimeout(() => {
+                    notify("success");
+                }, 30);
+            } else {
+                setTimeout(() => {
+                    notify("fail");
+                }, 30);
+            }
+        }
+    }
+    async function notify(example){
+        if(example == "success"){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Успешно',
+                text: 'Регистрация завершена успешно',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(() => {
+                document.location.href = "fork.html";
+            }, 1600);
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ошибка',
+                text: 'Вы неправильно ввели данные.',
+            })
+        }
+    }
+</script>
+</html>

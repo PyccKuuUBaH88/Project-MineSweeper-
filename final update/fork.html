@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <meta name="keywords" content="Сапёр, игра, мины, взрыв, флажки, карты">
+    <title>MineSweeper</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body>
+    <header>
+        <div id="logo"><img src="лого.png"></div>
+        <div id="menu">
+            <a href="fork.html"><div class="class">Главная</div></a>
+            <div class="class" onclick="comingSoon(1)">Статистика</div>
+            <a href="developer.html"><div class="class">О нас</div></a>
+        </div>
+    </header>
+    <main class="forkMain" id="main">
+        <div class="alSpace">
+            <div class="aList">
+                <div class="alpClass" onclick="showRule()"> Как играть? </div>
+                <div class="alpClass" onclick="choiceDiffMode()"> Начать игру </div>
+                <div class="alpClass" onclick="showNews()"> Новости </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function choiceDiffMode(){
+            document.body.children[1].innerHTML = `<main class="forkMain" id="main">
+                <div class="situationOW">
+                    <div class="difficultySetup">
+                        <h1 class="jSomeWords">Выберите уровень сложности:</h1>
+                        <button class="diffMode" onclick="startGame()">Легкий</button>
+                        <button class="diffMode" onclick="comingSoon()">Средний</button>
+                        <button class="diffMode" onclick="comingSoon()">Cложный</button>
+                        <button class="diffMode" onclick="back()">Назад</button>
+                    </div>
+                </div>
+            </main>`;
+        }  
+        function back(){
+            document.body.children[1].innerHTML = `<div class="aList">
+                <div class="alpClass"> Как играть? </div>
+                <div class="alpClass" onclick="choiceDiffMode()"> Начать игру </div>
+                <div class="alpClass" onclick="showNews()"> Новости </div>
+            </div>`
+        }
+        function startGame(){
+            document.body.children[1].innerHTML = `<iframe id="game" scrolling="no" src="theMineSweeper.html">`
+        }
+        function comingSoon(mode){
+            if(mode==0){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ранний доступ',
+                    text: 'В раннем доступе этот уровень сложности недоступен.',
+                })
+            } else if(mode==1){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ранний доступ',
+                    text: 'В раннем доступе статистика недоступна.',
+                })
+            }
+        }
+        function showRule(){
+            document.body.children[1].innerHTML = `<main class="forkMain" id="main">
+                <div class="situationOW">
+                    <div class="NewsStand">
+                        <h1 class="jSomeWords">Как играть. Правила и смысл игры</h1>
+                        <p class="jSomeWords">Главная задача игры - полностью расчистить поле, открыв все ячейки и пометив все мины.</p>
+                        <p class="jSomeWords">Цифры на клетках означают количество находящихся рядом мин. Будьте осторожны!</p>
+                        <p class="jSomeWords">При попадании на ячейку с миной вы проигрываете. Прежде, чем открыть ячейку, внимательно осмотрите ячейки, стоящие рядом.</p>
+                        <button class="button" onclick="back()">Назад</button>
+                    </div>
+                </div>
+            </main>`;
+        }
+        function showNews(){
+            document.body.children[1].innerHTML = `<main class="forkMain" id="main">
+                <div class="situationOW">
+                    <div class="NewsStand">
+                        <h1 class="jSomeWords">30.05.2020 - Обновление 1.1.0 .</h1>
+                        <h3 class="jSomeWords">Что нового:</h3>
+                        <p class="jSomeWords">- Добавлена кроссплатформенность, что значит, что игра теперь доступна <br> на мобильных устройствах и планшетах.</p>
+                        <p class="jSomeWords">- Заложена основа для создания учетных записей</p>
+                        <p class="jSomeWords">- Добавлена возможность регистрации/авторизации по ключу (быстрого входа)</p>
+                        <button class="button" onclick="back()">Назад</button>
+                    </div>
+                </div>
+            </main>`;
+        }
+    </script>
+</html>

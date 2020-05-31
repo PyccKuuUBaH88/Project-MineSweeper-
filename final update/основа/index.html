@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="Pictures/condition/icon.ico" type="image/x-icon">
+    <meta name="keywords" content="Сапёр, игра, мины, взрыв, флажки, карты">
+    <title>MineSweeper</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="logo"><img src="лого.png"></div>
+        <div id="menu">
+            <div class="class">Главная</div>
+            <div class="class">Статистика</div>
+            <div class="class">О нас</div>
+        </div>
+    </header>
+    <main class="startMain" id="main">
+        <div class="prelude">
+            <div class="form">
+                <p>Ваш e.mail:</p><input type="email" class="realm" id="regEmail" name="gameEntryEmail" placeholder="ваш e.mail:" maxlength="30">
+                <p>Ваш логин:</p><input type="text" class="realm" id="regLogin" name="gameEntryLogin" placeholder="ваш логин:" maxlength="15">
+                <p>Ваш пароль:</p><input type="password" class="realm" id="regPassword" name="gameEntryPassword" placeholder="ваш пароль:" maxlength="10">
+                <div id="fork">
+                    <button onclick="startRegistration()" class="button">Регистрация</button>
+                    <a href="authorization.html"><button class="button">Авторизация</button></a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+// функция регистрации. Начало. 
+    async function startRegistration(){
+        let regEmail = document.getElementById("regEmail").value;
+        let regLogin = document.getElementById("regLogin").value;
+        let regPassword = document.getElementById("regPassword").value;
+        let port = `http://zeref.ru/backend/registraction.php?email=${regEmail}&&login=${regLogin}&&pass=${regPassword}`
+        let sending = await fetch(port)
+        out = (await sending.text());
+        let checkResult = checking(out);
+        if (regEmail != "" && regLogin != "" && regPassword != "" && checkResult != 1){
+            success();
+        } else {
+            Swal.fire({
+                icon: "fail",
+                title: "Произошла ошибка при вводе данных",
+                timer: 1500
+            })
+            delete sending;
+            delete out;
+        }
+    }
+    function success(){
+        Swal.fire({
+                icon: "successful",
+                title: "Успешно",
+                html: `<div>
+                        <p>Регистрация прошла успешно</p>
+                       </div>`,
+                showConfirmButton: false,
+                timer: 1495,
+            })
+            setTimeout(() => {
+                document.location.href = "fork.html";
+            }, 1600);
+    }
+// функция регистрации. Конец
+// функция проверки на существующий профиль. Начало.
+    async function checking(auto){
+        if (auto != "null") {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+// Функция проверки на существующий профиль. Конец.
+</script>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <meta name="keywords" content="Сапёр, игра, мины, взрыв, флажки, карты">
+    <title>MineSweeper</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div id="logo"><img src="лого.png"></div>
+        <div id="menu">
+            <div class="class">Главная</div>
+            <div class="class">Статистика</div>
+            <div class="class">О нас</div>
+        </div>
+    </header>
+    <main class="startMain" id="main">
+        <div class="prelude">
+            <div class="form">
+                <div class="qorSquare" style="background-image: -webkit-linear-gradient(top left, #156F88 0%, #6842BA 100%);">
+                    <button class="QuickOrRight" onclick="RRform()">Регистрация</button>
+                    <button class="QuickOrRight" onclick="startRegistration(1)">Быстрый вход</button>
+                    <button class="QuickOrRight" onclick="toAutho()">Авторизация</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+// функция регистрации. Начало. 
+    function RRform(){
+        document.body.children[1].children[0].children[0].innerHTML = `<p>Ваш e.mail:</p><input type="email" class="realm" id="regEmail" name="gameEntryEmail" placeholder="ваш e.mail:" maxlength="30">
+                <p>Ваш логин:</p><input type="text" class="realm" id="regLogin" name="gameEntryLogin" placeholder="ваш логин:" maxlength="15">
+                <p>Ваш пароль:</p><input type="password" class="realm" id="regPassword" name="gameEntryPassword" placeholder="ваш пароль:" maxlength="10">
+                <div id="fork">
+                    <button onclick="startRegistration(0)" class="button">Завершить</button>
+                    <button class="button" onclick="back()">Назад</button>
+                </div>`;
+    }
+    function toAutho(){
+        setTimeout(() => {
+            document.location.href = "authorization.html";
+        }, 50);
+    }
+    function back(){
+        document.body.children[1].children[0].children[0].innerHTML = `<div class="qorSquare">
+                <button class="QuickOrRight" onclick="RRform()">Регистрация</button>
+                <button class="QuickOrRight" onclick="startRegistration(1)">Быстрый вход</button>
+                <button class="QuickOrRight" onclick="toAutho()">Авторизация</button>
+            </div>`
+    }
+    async function startRegistration(regMode){
+        if(regMode == 0){
+            let regEmail = document.getElementById("regEmail").value;
+            let regLogin = document.getElementById("regLogin").value;
+            let regPassword = document.getElementById("regPassword").value;
+            let inKey = 0;
+            let port = `http://zeref.ru/backend/registraction2.php?email=${regEmail}&&login=${regLogin}&&pass=${regPassword}&&inKey=${inKey}`
+            let sending = await fetch(port)
+            out = (await sending.text());
+            let checkResult = checking(out);
+            if (regEmail != "" && regLogin != "" && regPassword != "" && checkResult != 1){
+                success();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ошибка',
+                    text: 'Вы неправильно ввели данные',
+                    footer: ''
+                })
+            delete sending;
+            delete out;
+            }
+        } else if(regMode == 1){
+            let regEmail = "null";
+            let regLogin = "anonymous";
+            let regPassword = "null";
+            let inKey = String(Math.round(999999999999999+(Math.random()*10000000000000000)));
+            console.log(inKey);
+            let port = `http://zeref.ru/backend/registraction2.php?email=${regEmail}&&login=${regLogin}&&pass=${regPassword}&&inKey=${inKey}`;
+            let sending = await fetch(port);
+            out = (await sending.text());
+            let checkResult = checking(out);
+            if (checkResult != 1){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Успешно',
+                    text: `Ваш ключ: ${inKey}`,
+                    showConfirmButton: false,
+                    timer: 5000
+                })
+                setTimeout(() => {
+                    document.location.href = "fork.html";
+                }, 5100);  
+            delete sending;
+            delete out;
+            }
+        }
+    }
+    function success(){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Успешно',
+                text: 'Регистрация завершена успешно',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(() => {
+                document.location.href = "fork.html";
+            }, 1600);
+    }
+// функция регистрации. Конец
+// функция проверки на существующий профиль. Начало.
+    async function checking(auto){
+        if (auto != "null") {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+// Функция проверки на существующий профиль. Конец.
+</script>
+</html>

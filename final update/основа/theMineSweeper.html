@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+</head>
+<body>
+    <style>
+      *{
+        margin: 0px;
+        padding: 0px;
+      }
+      html, body{
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d');
+        let variable0 = new Image,  // пустая ячейка
+            variable1 = new Image,  // цифра 1 в ячейке
+            variable2 = new Image,  // цифра 2 в ячейке
+            variable3 = new Image,  // цифра 3 в ячейке
+            variable4 = new Image,  // цифра 4 в ячейке
+            variable5 = new Image,  // цифра 5 в ячейке
+            variable6 = new Image,  // цифра 6 в ячейке
+            variable7 = new Image,  // цифра 7 в ячейке
+            variable8 = new Image,  // цифра 8 в ячейке
+            variable9 = new Image,  // мина в ячейке
+            variable10 = new Image;     // флажок в ячейке
+        let globalSpace = document.body.clientWidth;
+        window.onresize = function(){
+          location.reload();
+        }
+        if(globalSpace <= 1920 && globalSpace>800){
+            canvas.width = "800";
+            canvas.height = "800";
+            variable0.src = "condition/easyLevel/desktop/cond10DE.png"
+            variable1.src = "condition/easyLevel/desktop/cond0DE.png";
+            variable2.src = "condition/easyLevel/desktop/cond1DE.png";
+            variable3.src = "condition/easyLevel/desktop/cond2DE.png";
+            variable4.src = "condition/easyLevel/desktop/cond3DE.png";
+            variable5.src = "condition/easyLevel/desktop/cond4DE.png";
+            variable6.src = "condition/easyLevel/desktop/cond5DE.png";
+            variable7.src = "condition/easyLevel/desktop/cond6DE.png";
+            variable8.src = "condition/easyLevel/desktop/cond7DE.png";
+            variable9.src = "condition/easyLevel/desktop/cond8DE.png";
+            variable10.src = "condition/easyLevel/desktop/cond9DE.png";
+        }
+        else if(globalSpace<=800 && globalSpace>576){
+            canvas.width = "576";
+            canvas.height = "576";
+            variable0.src = "condition/easyLevel/tablet/cond10TE.png"
+            variable1.src = "condition/easyLevel/tablet/cond0TE.png";
+            variable2.src = "condition/easyLevel/tablet/cond1TE.png";
+            variable3.src = "condition/easyLevel/tablet/cond2TE.png";
+            variable4.src = "condition/easyLevel/tablet/cond3TE.png";
+            variable5.src = "condition/easyLevel/tablet/cond4TE.png";
+            variable6.src = "condition/easyLevel/tablet/cond5TE.png";
+            variable7.src = "condition/easyLevel/tablet/cond6TE.png";
+            variable8.src = "condition/easyLevel/tablet/cond7TE.png";
+            variable9.src = "condition/easyLevel/tablet/cond8TE.png";
+            variable10.src = "condition/easyLevel/tablet/cond9TE.png";
+        }
+        else if(globalSpace<=576){
+            canvas.width = "256";
+            canvas.height = "256"
+            variable0.src = "condition/easyLevel/phone/cond10PE.png"
+            variable1.src = "condition/easyLevel/phone/cond0PE.png";
+            variable2.src = "condition/easyLevel/phone/cond1PE.png";
+            variable3.src = "condition/easyLevel/phone/cond2PE.png";
+            variable4.src = "condition/easyLevel/phone/cond3PE.png";
+            variable5.src = "condition/easyLevel/phone/cond4PE.png";
+            variable6.src = "condition/easyLevel/phone/cond5PE.png";
+            variable7.src = "condition/easyLevel/phone/cond6PE.png";
+            variable8.src = "condition/easyLevel/phone/cond7PE.png";
+            variable9.src = "condition/easyLevel/phone/cond8PE.png";
+            variable10.src = "condition/easyLevel/phone/cond9PE.png";
+        }
+            width = canvas.clientWidth,   /* Получаем всю ширину канваса и присваиваем её константе. */
+            height = canvas.clientHeight,
+            size = (width/8),
+            mineQuantity = 20,
+            flagQuantity = mineQuantity,
+            renderingField = 0;
+            let cycleValue = (width/size)
+        class CELL {
+            cellAbcissa;      // Создаем класс с несколькими переменными. в этих переменных содержится                 
+            cellOrdinate;        //информация о значении (цифра на ячейке),  
+            getValue;       // о том, какое значение (цифра) у ячейки;
+            getStatus;      // открыта ли ячейка;
+            isMine;         // является ли эта ячейка миной и
+            isFlag;         // стоит ли на этой ячейке флажок.
+            constructor(){
+                this.fillData()
+            }
+            fillData(){ 
+                this.cellAbcissa = 0; 
+                this.cellOrdinate = 0;      
+                this.getValue = 0;
+                this.getStatus = false;
+                this.isMine = false;
+                this.isFlag = 0;
+            }
+        }
+        let cellNumber = [];       // Создаем массив для каждой ячейки на поле.
+        for(i=0; i<cycleValue; i++){      // Делаем массив двухмерным.
+            cellNumber[i] = [];    
+        }
+        for(i=0; i<cycleValue; i++){      // Сделаем каждый элемент массива экземпляром класса CELL. 
+            for(j=0; j<(width/size); j++){
+                cellNumber[i][j] = new CELL; 
+            }
+        }
+        
+        function assignment(){          // Создадим функцию присваивания элементам матрицы своих значений длины и ширины.
+            for(i=0; i<cycleValue; i++){      
+                for(j=0; j<cycleValue; j++){
+                    cellNumber[i][j].cellAbcissa+=(size*j);
+                    cellNumber[i][j].cellOrdinate+=(size*i);
+                }
+            }
+        }
+        assignment();
+        function placement(){       // Создадим функцию, которая рандомно расставляет мины на поле
+            for(i=0; i<mineQuantity; i++){        
+                let randAbcissa = Math.round(Math.random() * ((width / size) - 1));     
+                let randOrdinate = Math.round(Math.random() * ((width / size) - 1));
+                if(cellNumber[randOrdinate][randAbcissa].isMine == false){
+                    cellNumber[randOrdinate][randAbcissa].isMine = true;
+                }
+                else{
+                    i -= 1 ;
+                }
+            }
+        }
+        placement();
+        function completion(){      // создадим функцию, которая прибавляет значения к пустым ячейкам вокруг мины.
+            for(i=0; i<(width/size); i++){    
+                for(j=0; j<(width/size); j++){
+                    if(cellNumber[i][j].isMine == true){        // Проверка на то, является ли ячейка миной. Если да, то к значению соседних ячеек прибавится единица. 
+                        if(cellNumber[i][j].cellAbcissa == 0 && cellNumber[i][j].cellOrdinate == 0){        // Серия проверок для ячейки в левом верхнем углу.
+                            j += 1;
+                            circleCheck(i, j)     // Если соседний справа элемент - не мина, то к значению ячейки прибавить единицу.
+                            i += 1;
+                            circleCheck(i, j)     // Если соседний справа снизу элемент - не мина, то к значению ячейки прибавить единицу.
+                            j -= 1;
+                            circleCheck(i, j)     // Если соседний снизу элемент - не мина, то к значению ячейки прибавить единицу.
+                            i -= 1;
+                        }
+                        if(cellNumber[i][j].cellAbcissa == width-size && cellNumber[i][j].cellOrdinate == 0){      // Серия проверок для ячейки в правом верхнем углу.
+                            j -= 1;     
+                            circleCheck(i, j);    // Если соседний слева элемент - не мина, то к значению ячейки прибавить единицу
+                            i += 1;     
+                            circleCheck(i, j);    // Если соседний слева снизу элемент - не мина, то к значению ячейки прибавить единицу
+                            j += 1;     
+                            circleCheck(i, j);    // Если соседний снизу элемент - не мина, то к значению ячейки прибавить единицу
+                            i -= 1;
+                        }
+                        if(cellNumber[i][j].cellAbcissa == 0 && cellNumber[i][j].cellOrdinate == width-size){      // Серия проверок для ячейки в левом нижнем углу.
+                            j += 1;     
+                            circleCheck(i, j);    // Если соседний справа элемент - не мина, то +1 к значению ячейки
+                            i -= 1;     
+                            circleCheck(i, j);    // Если соседний справа сверху элемент - не мина, то +1 к значению ячейки
+                            j -= 1;    
+                            circleCheck(i, j);    // Если соседний сверху элемент - не мина, то +1 к значению ячейки
+                            i += 1;
+                        }
+                        if(cellNumber[i][j].cellAbcissa == width-size && cellNumber[i][j].cellOrdinate == width-size){
+                            j -= 1;     
+                            circleCheck(i, j);    // Если соседний слева элемент - не мина, то +1 к значению ячейки
+                            i -= 1;     
+                            circleCheck(i, j);    // Если соседний слева сверху элемент - не мина, то +1 к значению ячейки
+                            j += 1;     
+                            circleCheck(i, j);    // Если соседний сверху элемент - не мина, то +1 к значению ячейки
+                            i += 1;
+                        }
+                        if(cellNumber[i][j].cellAbcissa == 0 && cellNumber[i][j].cellOrdinate != 0 && cellNumber[i][j].cellOrdinate != width-size){ // Проверки для первого столбца
+                            i -= 1;
+                            circleCheck(i, j);    // если сверху не мина, то +1 к значению
+                            j += 1;
+                            circleCheck(i, j);    // если сверху справа не мина, то +1 к значению
+                            i += 1;
+                            circleCheck(i, j);    // если справа не мина, то +1 к значению
+                            i += 1;
+                            circleCheck(i, j);    // если снизу справа не мина, то +1 к значению
+                            j -= 1;
+                            circleCheck(i, j);    // если снизу не мина, то +1 к значению
+                            i -= 1;     // возвращение на исходную точку.
+                        }
+
+                        // Тот же принцип и далее . . .
+                        
+                        if(cellNumber[i][j].cellAbcissa == width-size && cellNumber[i][j].cellOrdinate != 0 && cellNumber[i][j].cellOrdinate != width-size){
+                            i += 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            i -= 1;
+                            circleCheck(i, j);
+                            i -= 1;
+                            circleCheck(i, j);
+                            j += 1;
+                            circleCheck(i, j);
+                            i += 1;
+                        }
+                        if(cellNumber[i][j].cellOrdinate == 0 && cellNumber[i][j].cellAbcissa != 0 && cellNumber[i][j].cellAbcissa != width-size){
+                            j += 1;
+                            circleCheck(i, j);
+                            i += 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            i -= 1;
+                            circleCheck(i, j);
+                            j += 1;
+                        }
+                        if(cellNumber[i][j].cellOrdinate == width-size && cellNumber[i][j].cellAbcissa != 0 && cellNumber[i][j].cellAbcissa != width-size){
+                            j += 1;
+                            circleCheck(i, j);
+                            i -= 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            i += 1;
+                            circleCheck(i, j);
+                            j += 1;
+                        }
+                        if(cellNumber[i][j].cellOrdinate != 0 && cellNumber[i][j].cellOrdinate != width-size && cellNumber[i][j].cellAbcissa != 0 && cellNumber[i][j].cellAbcissa != width-size){
+                            j -= 1;
+                            circleCheck(i, j);
+                            i -= 1;
+                            circleCheck(i, j);
+                            j += 1;
+                            circleCheck(i, j);
+                            j += 1;
+                            circleCheck(i, j);
+                            i += 1;
+                            circleCheck(i, j);
+                            i += 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            j -= 1;
+                            circleCheck(i, j);
+                            j += 1;
+                            i -= 1
+
+                        }
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+        }
+        function circleCheck(a, b){    // Функция увеличения значения ячеек вокруг мины.
+            if(cellNumber[a][b].isMine == false){
+                cellNumber[a][b].getValue += 1;
+            }
+        }
+        completion();
+        function field(){       // Функция зарисовки поля
+            if(renderingField == 0){        // Режим зарисовки 1 (Начало игры.). Используемые данные: Ширина и высота поля, размер, координаты, состояние ячеек 
+                ctx.fillStyle = 'rgba(80, 80, 80, 0.85)';
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = 'rgb(0, 0, 0)';
+                for(i=0; i<(width/size); i++){
+                    for(j=0; j<(width/size); j++){
+                        ctx.fillRect(cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate, size-1, size-1);
+                        cellNumber[i][j].getStatus = false;
+                    }
+                }
+                renderingField += 1;
+            }
+            else if(renderingField == 2){       // Режим зарисовки 2 (Игрок нажал на ячейку с миной.)
+                for(i=0; i<width/size; i++){
+                    for(j=0; j<width/size; j++){
+                        if(cellNumber[i][j].getValue == 1){
+                            ctx.drawImage(variable1, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].getValue == 2){
+                            ctx.drawImage(variable2, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].getValue == 3){
+                            ctx.drawImage(variable3, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].getValue == 4){
+                            ctx.drawImage(variable4, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].getValue == 5){
+                            ctx.drawImage(variable5, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].getValue == 6){
+                            ctx.drawImage(variable6, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);             
+                            cellNumber[i][j].getStatus = true;    
+                        }
+                        if(cellNumber[i][j].getValue == 7){
+                            ctx.drawImage(variable7, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;   
+                        }
+                        if(cellNumber[i][j].getValue == 8){
+                            ctx.drawImage(variable8, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;   
+                        }
+                        if(cellNumber[i][j].getValue == 0 && cellNumber[i][j].isFlag == 0){
+                            ctx.drawImage(variable0, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                            cellNumber[i][j].getStatus = true;
+                        }
+                        if(cellNumber[i][j].isMine == true && cellNumber[i][j].isFlag == 0){
+                            ctx.drawImage(variable9, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                        }
+                    }
+                }
+                renderingField += 1;
+            }
+            let openedCell = 0
+            for(i=0; i<width/size; i++){
+                for(j=0; j<width/size; j++){
+                    if(cellNumber[i][j].getStatus == true){
+                        openedCell += 1;
+                    }
+                }
+            }
+            if(openedCell == 64){
+                renderingField = 3
+            }
+            canvas.addEventListener('mousedown' , function(e) {
+                if(renderingField == 3){        // Режим зарисовки 3
+                    for(i=0; i<width/size; i++){
+                        for(j=0; j<width/size; j++){
+                            if(cellNumber[i][j].isMine == true){
+                                cellNumber[i][j].isMine = false;
+                            }
+                            cellNumber[i][j].getValue = 0;
+                            cellNumber[i][j].isFlag = 0;
+                            flagQuantity = 20;
+                        }
+                    }
+                    placement();
+                    completion();
+                    renderingField -= 3; 
+                }
+                if(renderingField == 1){
+                    userAbcissa = e.clientX;
+                    userOrdinate = e.clientY;
+                    isCtrl = e.ctrlKey;
+                    isMouseButton = e.which;
+                    if(isMouseButton == 1 && isCtrl == false){
+                        for(i=0; i<width/size; i++){
+                            for(j=0; j<width/size; j++){
+                                let nextCellAbcissa = cellNumber[i][j].cellAbcissa + size,
+                                    nextCellOrdinate = cellNumber[i][j].cellOrdinate + size;
+                                if(cellNumber[i][j].cellAbcissa <= userAbcissa && nextCellAbcissa >= userAbcissa && cellNumber[i][j].cellOrdinate <= userOrdinate && nextCellOrdinate >= userOrdinate){
+                                    if(cellNumber[i][j].isMine == false && cellNumber[i][j].getStatus == false){
+                                        if(cellNumber[i][j].getValue == 1){
+                                            ctx.drawImage(variable1, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;
+                                        }
+                                        if(cellNumber[i][j].getValue == 2){
+                                            ctx.drawImage(variable2, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;
+                                        }
+                                        if(cellNumber[i][j].getValue == 3){
+                                            ctx.drawImage(variable3, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;
+                                        }
+                                        if(cellNumber[i][j].getValue == 4){
+                                            ctx.drawImage(variable4, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;
+                                        }
+                                        if(cellNumber[i][j].getValue == 5){
+                                            ctx.drawImage(variable5, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;
+                                        }
+                                        if(cellNumber[i][j].getValue == 6){
+                                            ctx.drawImage(variable6, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);             
+                                            cellNumber[i][j].getStatus = true;    
+                                        }
+                                        if(cellNumber[i][j].getValue == 7){
+                                            ctx.drawImage(variable7, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;   
+                                        }   
+                                        if(cellNumber[i][j].getValue == 8){
+                                            ctx.drawImage(variable8, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;   
+                                        }
+                                        if(cellNumber[i][j].getValue == 0){
+                                            ctx.drawImage(variable0, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                            cellNumber[i][j].getStatus = true;   
+                                        }
+                                    }
+                                    if(cellNumber[i][j].isMine == true){
+                                        renderingField += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(isMouseButton == 1 && isCtrl == true){
+                        for(i=0; i<width/size; i++){
+                            for(j=0; j<width/size; j++){
+                                let nextCellAbcissa = cellNumber[i][j].cellAbcissa + size,
+                                    nextCellOrdinate = cellNumber[i][j].cellOrdinate + size;
+                                if(cellNumber[i][j].cellAbcissa <= userAbcissa && nextCellAbcissa >= userAbcissa && cellNumber[i][j].cellOrdinate <= userOrdinate && nextCellOrdinate >= userOrdinate){
+                                    if(cellNumber[i][j].isFlag % 2 == 0 && cellNumber[i][j].getStatus == false && flagQuantity > 0){
+                                        cellNumber[i][j].getStatus = true;
+                                        flagQuantity -= 1;
+                                        cellNumber[i][j].isFlag += 1;
+                                        ctx.drawImage(variable10, cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate);
+                                        break;
+                                    }
+                                    else if(cellNumber[i][j].isFlag % 2 == 1 && cellNumber[i][j].getStatus == true){
+                                        cellNumber[i][j].getStatus = false;
+                                        flagQuantity += 1;
+                                        cellNumber[i][j].isFlag += 1;
+                                        ctx.fillStyle = 'rgb(0, 0, 0)';
+                                        ctx.fillRect(cellNumber[i][j].cellAbcissa, cellNumber[i][j].cellOrdinate, size - 1, size - 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        requestAnimationFrame(field);
+        }
+        field()
+        
+    </script>
+</body>
+</html>

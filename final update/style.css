@@ -1,0 +1,326 @@
+*{ margin: 0px;
+    padding: 0px; 
+}
+html, body{ width: 100%;
+    height: 100%;
+    background-color: blue;
+}
+/* Стили для шапки страницы */
+header{ width: 100%;
+    height: 80px;
+    color: whitesmoke; 
+    border-radius: 0px 0px 40px 40px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-image: -webkit-linear-gradient(left, #156F88 18%, #1E0651 100%) }
+/* Стили для файла "index.php" */
+/* Стили для меню */
+#menu{ height: 100px;
+    width: 1500px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around; }
+/* Стили для элементов меню*/
+.class{ text-align: center;
+    padding-top: 15px; 
+    font-size: 1.4em;
+    background-image: -webkit-linear-gradient(top left, #E7BE5D 10%, #93793D 90%);
+    margin: 5px 10px 5px 10px;   
+    width: 300px;
+    height: 40px;
+    border-radius: 1.5em;
+}
+.class:hover{
+    background-image: -webkit-linear-gradient(right, #7656BA 10%, #452096 90%);
+    cursor: pointer;
+}
+#menu a{ color: whitesmoke; 
+    text-decoration: none;}
+/* Стили для блока управления всем контентом на осн. странице */
+.prelude{ padding-top: 7%; 
+    margin: 2vh; 
+    width: 100%;
+    color: whitesmoke;
+    font-size: 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap ;
+}
+.realm{ width: 29.9vw;
+    margin: 3.75%;
+    height: 60px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+#datafield{ width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;}
+#fork{ width: 100%; 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around; }
+.button{ width: 24vw;
+    margin: 2vh;
+    margin-top: 80px !important; 
+    height: 60px; 
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 1vh;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    background-image: -webkit-linear-gradient(top, #445BBA 0%, #6842BA 100%);
+    border: 1px solid #233995;}
+.button:hover{ background-image: -webkit-linear-gradient(right, #93793D 10%, #765405 90%);
+    cursor: pointer; }
+.button:active{ background-image: -webkit-linear-gradient(right, #28505B 10%, #043A49 90%);}
+.qorSquare{ width: 550px;
+    height: 450px;
+    margin-top: 60px;
+    padding-bottom: 70px;
+    background-image: -webkit-linear-gradient(top, #061550 0%, #6842BA 100%);
+    border-radius: 1.8em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;}
+.QuickOrRight{width: 430px;
+    height: 70px;
+    text-align: center;
+    color: #E7BE5D;
+    border-radius: 2em;
+    font-size: 28px;
+    border: 0px;
+    margin-top: 80px;
+    background-image: -webkit-linear-gradient(right, #4B9BB2  10%, #586BBA 90%); }
+.QuickOrRight:hover{ background-image: -webkit-linear-gradient(right, #6842BA 10%, #7656BA 90%);cursor: pointer;
+    cursor: pointer; }
+.QuickOrRight:active{ background-image: -webkit-linear-gradient(right, #233995 10%, #061550 90%);}
+/* Особые стили для каждой страницы сайта */
+.startMain{ background-image: url("background/blue.jpg");
+    background-blend-mode: multiply;
+    background-color: #233995;
+    background-position: center;}
+.authoMain{ background-image: url("background/blue2.jpg");
+    background-blend-mode: multiply;
+    background-color: #233995;
+    background-position: center;}
+.forkMain { background-image: url("background/violet.jpg");
+    background-blend-mode: multiply;
+    background-color: #403064;
+    background-position: center;}
+.devMain{ background-image: url("background/red.jpg");
+    background-blend-mode: multiply;
+    background-color: #811313;
+    background-position: center; }
+/* Единый стиль для всех страниц сайта */
+#main{ min-width: 100%;
+    min-height: 130%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap; 
+    background-repeat: repeat;}
+/* Стили для файла "fork.html" */
+/* Стили для кнопки по центру экрана */
+.gameStart{ width: 450px;
+    height: 150px;
+    background-image: -webkit-linear-gradient(top, #156F88 10%, #043A49 90%);
+    font-size: 30px;
+    color: #E7B541;
+    text-align: center;
+    border-radius: 2.6em;
+    margin-left: 1%;
+    margin-top: 350px;
+    border: 0px; }
+.gameStart:hover{ background-image: -webkit-linear-gradient(top, #7656BA  10%, #061550 90%);
+    color: rgb(227, 241, 161); }
+/* Стили для подвала страницы */
+/* Стили для группы кнопок */
+/* Стили для пространства группы кнопок*/
+.situationOW{ width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; }
+/* Стили для основного тела группы кнопок */
+.difficultySetup{ margin-top: 220px;
+    width: 550px;
+    height: 510px;
+    padding-top: 40px;
+    background-image: -webkit-linear-gradient(top left, #7656BA  10%, #452096 50%, #1E0651 90%);
+    border-radius: 4em;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap }
+/* Стили для каждой кнопки отдельно */
+.diffMode{ margin: 10px;   
+    width: 400px;
+    height: 2.4em;
+    padding-top: 0px;
+    border-radius: 2em;
+    text-align: center;
+    font-size: 26px;
+    border: 0px;
+    background-image: -webkit-linear-gradient(bottom right, #E7BE5D 10%, #93793D 90%);
+    color: whitesmoke; }
+.diffMode:hover{ background-image: -webkit-linear-gradient(left, #303A64  10%, #043A49 90%); }
+.diffMode:active{ background-image: -webkit-linear-gradient(right, #4B9BB2  10%, #586BBA 90%); }
+/* Стили для надписей в подвале сайта и на главной кнопке */
+.jSomeWords{ color: whitesmoke;
+    font-size: 36px;}
+.jSomeWords a{ text-decoration: none;
+    color: #E7BE5D; }
+/* Стили для основного игрового поля */
+.situationPG{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#game{ position: absolute;
+    border: 0px;
+    width: 801px;
+    height: 801px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 130px;}
+.alSpace{width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; }
+.aList{ width: 600px;
+    height: 400px;
+    background-image: -webkit-linear-gradient(top left, #233995 0%, #445BBA 100%);
+    border-radius: 2em;
+    margin-top: 190px;
+    padding-top: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around; }
+.alpClass{ width: 310px;
+    height: 50px;
+    font-size: 24px;
+    margin-top: 15px;
+    padding-top: 20px;
+    text-align: center;
+    border-radius: 0.8em;
+    background-image: -webkit-linear-gradient(right, #3696B2 10%, #156F88 90%);
+    color: white; }
+.alpClass:hover{background-image: -webkit-linear-gradient(right, #233995 10%, #445BBA 90%);
+    cursor: pointer;}
+.alpClass:active{ background-image: -webkit-linear-gradient(right, #452096 10%, #6842BA 90%) }
+.NewsStand{ margin-top: 240px;
+    width: 650px;
+    height: 650px;
+    padding-top: 40px;
+    background-image: -webkit-linear-gradient(top left, #7656BA  10%, #452096 50%, #1E0651 90%);
+    border-radius: 4em;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap}
+/* Режимы под различные устройства */
+@media(max-width: 1799px){
+    .prelude{ padding-top: 15%;}
+    header{ height: 145px;
+        background-image: -webkit-linear-gradient(top, #156F88 45%, #1E0651 100%);
+        border-radius: 0px 0px 40px 40px; }
+    .realm{ height: 40px;
+        border-radius: 20px;
+        font-size: 24px; }
+    .preface{ margin: 15px;
+        font-size: 30px; }
+    .gameStart{ font-size: 32px;
+        width: 450px;
+        height: 150px;
+        margin-top: 270px; }
+    #game{ margin-top: 200px; }
+}
+@media(max-width: 959px){
+    .realm{ width: 310px;
+    margin: 30px 0px 30px 0px;}
+    .prelude{ padding-top: 36%;}
+    header{ height: 240px;
+        border-radius: 0px 0px 80px 80px; }
+    .preface{ margin: 10px;
+        font-size: 24px; }
+    #logo{ position: absolute;
+        margin-top: 20px; }
+    #menu{ height: 80px;
+        margin-top: 100px; }
+    .class{ height: 40px;}
+    .difficultySetup{ margin-top: 285px;}
+    .gameStart{ font-size: 26px;
+        width: 400px;
+        height: 125px;
+        margin-top: 350px; }
+    #game{ margin-top: 350px;
+        width: 577px;
+        height: 577px;}
+    .aList, .NewsStand{ margin-top: 260px;}
+}
+@media(max-width: 639px){
+    .prelude{ padding-top: 320px;}
+    .preface{ margin: 10px;
+        font-size: 1.5em; }
+    .button{ width: 180px;
+    margin: 40px 70px 0px 70px !important}
+    header{ height: 280px;
+        border-radius: 0px 0px 30px 30px; }
+    #logo{ position: absolute;
+        margin-top: 40px; }
+    #menu{ height: 80px;
+        margin-top: 130px; }
+    .class{ height: 30px;
+        padding-top: 10px; }
+    .gameStart{margin-top: 105vw;}
+    .difficultySetup{ margin-top: 355px;
+        padding-top: 20px;  
+        height: 310px; 
+        border-radius: 3em; 
+        width: 310px;}
+    .diffMode{height: 2em;
+        width: 250px;
+        padding-top: 5px;
+        font-size: 24px;}
+    #game{ margin-top: 91.5%;
+        width: 256px;
+        height: 256px;}
+    .gameStart{ font-size: 23px;
+        width: 300px;
+        height: 100px;
+        margin-top: 420px; }
+    .qorSquare{ width: 290px;
+    height: 350px;
+    padding-bottom: 30px;
+    border-radius: 1em;}
+    .QuickOrRight{ width: 270px;
+    height: 60px;
+    margin-top: 45px;} 
+    .jSomeWords{font-size: 20px;}
+    .NewsStand{width: 300px;
+    margin-top: 305px;
+    height: 430px;
+    border-radius: 2em;}
+}
